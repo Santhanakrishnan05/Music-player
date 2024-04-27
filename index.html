@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Music Player</title>
+  <link rel="stylesheet" href=".\style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h4>Music Player</h4>
+    <img id="track_image">
+    <p id="title">title.3</p>
+    <marquee id="artist">artist_name</marquee>
+    <input type="range" id="duration_slider" min="0" max="100" value="0" oninput="change_duration()">
+    <button onclick="previous_song()" id="pre"><i class="fa fa-step-backward"></i></button>
+    <button onclick="play_song()" id="play"><i class="fa fa-play"></i></button>
+    <button onclick="next_song()" id="next"><i class="fa fa-step-forward"></i></button>
+    <p id="total"></p>
+    <p id="present"></p>
+  </div>
+  <script>
+    let previous = document.querySelector('#pre');
+    let play = document.querySelector('#play');
+    let next = document.querySelector('#next');
+    let title = document.querySelector('#title');
+    let artist = document.querySelector('#artist');
+    let slider = document.querySelector('#duration_slider');
+    let track_image = document.querySelector('#track_image');
+    let total = document.querySelector('#total');
+    let present = document.querySelector('#present');
+
+    let timer;
+    let autoplay = 1;
+    let track = document.createElement('audio');
+
+    let index_no = 0;
+    let playing_song = false;
+
+    let All_song = [{
+        name: "Kangal Edho",
+        path: "Songs/Kangal-Edho-Song.dev.mp3",
+        img: "images/Kangal_edho_image.jpeg",
+        artist: 'Dhibu Ninan Thomas,Pradeep Kumar,Karthika Vaidyanathan'
+      },
+      {
+        name: "Kannukulle",
+        path: "Songs/Kannukkulle-Song.mp3",
+        img: "images/Kannukulle_image.jpeg",
+        artist: 'Vishal Chandrasekhar,Haricharan,Sinduri Vishal'
+      },
+      {
+        name: "Unakku than",
+        path: "Songs/Unakku-Thaan-song.mp3",
+        img: "images/Unaku_thaa_image.jpg",
+        artist: 'Santhosh Narayanan,Dhvani Kailas'
+      }
+    ];
+
+    function load_track(index_no) {
+      clearInterval(timer);
+      reset_slider();
+
+      track.src = All_song[index_no].path;
+      title.innerHTML = All_song[index_no].name;
+      track_image.src = All_song[index_no].img;
+      artist.innerHTML = All_song[index_no].artist;
+
+      timer = setInterval(range_slider, 1000);
+     }
+
+    load_track(index_no);
+
+    function play_song() {
+      if (playing_song == false) {
+        playsong();
+      } else {
+        pausesong();
+      }
+    }
+
+    function reset_slider() {
+      slider.value = 0;
+    }
+
+    function playsong() {
+      track.play();
+      playing_song = true;
+      play.innerHTML = '<i class = "fa fa-pause"></i>';
+    }
+
+    function pausesong() {
+      track.pause();
+      playing_song = false;
+      play.innerHTML = '<i class = "fa fa-play"></i>';
+    }
+
+    function next_song() {
+      if (index_no < All_song.length - 1) {
+        index_no += 1;
+        load_track(index_no);
+        playsong();
+      } else {
+        index_no = 0;
+        load_track(index_no);
+        playsong();
+      }
+    }
+
+    function previous_song() {
+      if (index_no > 0) {
+        index_no -= 1;
+        load_track(index_no);
+        playsong();
+      } else {
+        index_no = All_song.length - 1;
+        load_track(index_no);
+        playsong();
+      }
+    }
+
+    function change_duration() {
+      let slider_position = track.duration * (slider.value / 100);
+      track.currentTime = slider_position;
+    }
+    function range_slider() {
+      let position = track.currentTime / track.duration * 100;
+      slider.value = position;
+    }
+    
+  </script>
+</body>
+</html>
