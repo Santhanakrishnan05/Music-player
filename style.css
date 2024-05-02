@@ -75,22 +75,6 @@ marquee{
   font-weight: 500;
 }
 
-@media screen and (max-width:800px){
-  .container{
-    width: 20%;
-    height: 65vh;
-    margin-top:40px;
-  }
-  body{
-  margin-top:200px;
-  width: 100%;
-  height: 30vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
-}
 
 
 
